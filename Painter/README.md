@@ -1,4 +1,24 @@
-A small "Paint"-like program where you can move across a grid, painting and erasing the color of the squares as desired.
+# Description
+Grid Painter is a small "Paint"-like program developed in Java using the SimpleGraphics library. It allows you to move across a grid, painting and erasing the color of squares as you wish.
 
-This small program is still in its early stages. It currently features only a grid and a movable cursor, which can be controlled with the arrow keys and change color by pressing space.
-Over time, new features will be added, such as painting grid squares, erasing painted squares, saving drawings, and restoring the last saved drawing after clearing the grid.
+# Current Features
+Displays a grid with a movable cursor.
+
+Cursor is controlled with the arrow keys.
+
+Pressing space changes the cursor color.
+
+# Planned Features
+Painting individual grid squares.
+
+Erasing painted squares.
+
+Saving drawings.
+
+Restoring the last saved drawing after clearing the grid.
+
+# Current Status
+This program is still in its early stages. Core functionality is in place, but many features are yet to be implemented.
+
+# License
+This project is currently unlicensed. Feel free to explore and experiment. Contributions and feedback are welcome!
