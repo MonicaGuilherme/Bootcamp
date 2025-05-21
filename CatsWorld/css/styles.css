@@ -1,0 +1,107 @@
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+}
+
+/* Banner */
+.banner {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+/* Carousel */
+#carousel-container {
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Cat card (carrossel na home) */
+#cat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 700px;
+  padding: 1rem;
+  background-color: #222; 
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+/* Imagem dentro do cat-card (home) */
+#cat-card img {
+  max-width: 300px;
+  max-height: 250px;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+/* Texto do card (home) */
+#cat-card p {
+  max-width: 350px;
+  font-size: 1.2rem;
+  color: white;
+  margin: 0;
+}
+
+/* Botões do carrossel */
+#prev-btn, #next-btn {
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  height: fit-content;
+  align-self: center;
+}
+
+/* Link para Wikipedia */
+.wiki-link {
+  color: #00BFFF;
+  text-decoration: underline;
+}
+
+/* Ajustes para os cards em /cats */
+#cat-list {
+  padding: 2rem 1rem;
+}
+
+/* Card individual na /cats */
+.cat-card {
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255,255,255,0.05);
+}
+
+/* Imagem do card em /cats */
+.cat-img {
+  object-fit: cover;
+  height: 200px;
+  width: 100%;
+  border-radius: 0;
+}
+
+/* Responsividade para evitar que encoste nas margens */
+@media (min-width: 768px) {
+  #cat-list {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+h1.text-center {
+  color: #fff;
+}
+
+
