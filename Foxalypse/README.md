@@ -1,31 +1,60 @@
-# Your Chiken House Needs Protection
-# Description
-Foxalypse is a tower defense-style game inspired by Plants vs. Zombies, where you protect your chicken house from invading foxes.
+# 🐔 Your Chicken House Needs Protection
 
-# Tech Stack
-Java
+![Status](https://img.shields.io/badge/status-completed-blue)
+![Java](https://img.shields.io/badge/language-Java-red)
+![SimpleGraphics](https://img.shields.io/badge/library-SimpleGraphics-lightgrey)
 
-SimpleGraphics (for basic 2D graphics)
+---
 
-# Current Features
-Basic gameplay mechanics with plants defending against waves of foxes.
+## 📜 Description
+**Foxalypse** is a tower defense-style game inspired by *Plants vs. Zombies*, where you protect your chicken house from invading foxes.
 
-The player helps the plants by directing which one should shoot and defend the chicken house as more and more foxes spawn on the lawn.
+This project was developed as a **group assignment** during our Full-Stack Bootcamp.  
+We had **9 days and 10 nights**, with only **4 weeks of Java experience**, to bring the game to life.
 
-The game speeds up over time, increasing the challenge.
+**Team members:**  
+- [Mónica Guilherme](https://github.com/yourusername)  
+- [Joana Trindade]([https://github.com/colleague1](https://github.com/joanamsst))  
+- [João Parada]([https://github.com/colleague2](https://github.com/Joao-Parada))  
+- [Ricardo Veloso]
 
-Plants can evolve one at a time each time you earn 50 points, after reaching the 150 points threshold.
+---
 
-# Planned Improvements
-Randomly spawning foxes to increase unpredictability and challenge.
+## 🛠 Tech Stack
+- **Java**  
+- **SimpleGraphics** (basic 2D graphics rendering)
 
-Pop-up alerts for plant upgrades and game events.
+---
 
-Stronger foxes to raise the difficulty level.
+## 🎮 Current Features
+- Basic gameplay mechanics with plants defending against waves of foxes  
+- Player helps the plants by selecting which one should shoot  
+- Game difficulty increases as foxes spawn faster  
+- Plants can evolve individually every 50 points, after reaching 150 points
 
-Improved menus and gameplay interaction.
+---
 
-# Current Status
-*In progress*
+## 🚧 Planned Improvements
+Although the initial goal has been achieved, we may revisit this project in the future to explore new features such as:
 
-The game is currently functional, but the code requires cleaning and refactoring. The build process (via build.xml) is not yet working but will be implemented in the future.
+- Randomized fox spawns for increased unpredictability  
+- Pop-up alerts for upgrades and in-game events  
+- Stronger fox types to increase difficulty  
+- Improved menus and smoother user interaction
+
+---
+
+## ✅ Current Status
+**Completed** – The game is fully functional and met the assignment objectives.  
+The code still requires cleanup and refactoring. The `build.xml` build process is not yet implemented but may be added in the future.
+
+---
+
+## 📬 Feedback & Contact
+
+Feel free to fork the project, submit issues, or contact us with ideas and suggestions.  
+We appreciate any feedback and hope you enjoy the game!
+
+---
+
+
