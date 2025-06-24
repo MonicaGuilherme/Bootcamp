@@ -1,8 +1,9 @@
 # Hello and welcome!
 
-This portfolio showcases projects I developed during my Full-Stack Bootcamp training, along with various coding experiments and personal challenges I’ve taken on throughout my learning journey.
+This repository is a collection of projects I built during my Full-Stack Bootcamp.
 
-Inside this repository, you will find mostly ongoing projects and works that I will continue to update and improve over time. Now that the bootcamp is over, the real adventure begins in this exciting new field of knowledge.
+Most of the work here is almost complete, though I plan to polish and improve a few of the projects over time. Now that the bootcamp is behind me, I'm focused on continuing my growth as a developer.
 
-Feel free to explore the code, provide feedback, and reach out!
+Feel free to browse the code, share your thoughts, or get in touch — feedback is always welcome!
+
 
