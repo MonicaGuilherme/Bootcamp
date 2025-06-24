@@ -13,9 +13,9 @@ This project was developed as a **group assignment** during our Full-Stack Bootc
 We had **9 days and 10 nights**, with only **4 weeks of Java experience**, to bring the game to life.
 
 **Team members:**  
-- [Mónica Guilherme](https://github.com/yourusername)  
-- [Joana Trindade]([https://github.com/colleague1](https://github.com/joanamsst))  
-- [João Parada]([https://github.com/colleague2](https://github.com/Joao-Parada))  
+- [Mónica Guilherme](https://github.com/MonicaGuilherme)  
+- [Joana Trindade](https://github.com/joanamsst)  
+- [João Parada](https://github.com/Joao-Parada)  
 - [Ricardo Veloso]
 
 ---
