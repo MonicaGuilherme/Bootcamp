@@ -2,115 +2,135 @@ package io.codeforall.kernelfc;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
-import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+import org.academiadecodigo.simplegraphics.keyboard.*;
 
-public class Painter implements KeyboardHandler{
+public class Painter implements KeyboardHandler {
 
-        private final Keyboard keyboard;
-        private final Rectangle player;
+    private final Keyboard keyboard;
+    private final Grid grid;
 
+    private int currentRow;
+    private int currentCol;
 
-        public Painter(){
-            this.player = new Rectangle(10,10, 20,20);
-            this.player.setColor(Color.BLUE);
-            this.player.fill();
-            this.keyboard = new Keyboard(this);
-            createKeyboardEvents();
+    private Rectangle cursor;
+
+    // Color palette and index
+    private final Color[] palette = {Color.BLUE, Color.DARK_GRAY, Color.GREEN, Color.MAGENTA, Color.YELLOW};
+    private int currentColorIndex = 0;
+
+    /**
+     * Constructor: initializes the painter and sets up the keyboard
+     */
+    public Painter() {
+        this.keyboard = new Keyboard(this);
+        this.grid = new Grid();
+
+        currentRow = 0;
+        currentCol = 0;
+
+        // Create the visual cursor (player)
+        cursor = new Rectangle(grid.colToX(currentCol), grid.rowToY(currentRow), Grid.CELL_SIZE, Grid.CELL_SIZE);
+        cursor.setColor(Color.RED);
+        cursor.draw();
+
+        createKeyboardEvents();
+    }
+
+    /**
+     * Creates and registers all keyboard events
+     */
+    public void createKeyboardEvents() {
+        int[] keys = {
+                KeyboardEvent.KEY_UP,
+                KeyboardEvent.KEY_DOWN,
+                KeyboardEvent.KEY_LEFT,
+                KeyboardEvent.KEY_RIGHT,
+                KeyboardEvent.KEY_SPACE,
+                KeyboardEvent.KEY_P // New: change color
+        };
+
+        for (int key : keys) {
+            KeyboardEvent event = new KeyboardEvent();
+            event.setKey(key);
+            event.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+            keyboard.addEventListener(event);
         }
+    }
 
+    /**
+     * Handles key presses and performs actions
+     */
+    @Override
+    public void keyPressed(KeyboardEvent keyboardEvent) {
+        switch (keyboardEvent.getKey()) {
 
-
-        public void createKeyboardEvents(){
-
-            KeyboardEvent keyboardEventSpace = new KeyboardEvent();
-            keyboardEventSpace.setKey(KeyboardEvent.KEY_SPACE);
-            keyboardEventSpace.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventSpace);
-
-            KeyboardEvent keyboardEventL = new KeyboardEvent();
-            keyboardEventL.setKey(KeyboardEvent.KEY_L);
-            keyboardEventL.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventL);
-
-            KeyboardEvent keyboardEventS = new KeyboardEvent();
-            keyboardEventS.setKey(KeyboardEvent.KEY_S);
-            keyboardEventS.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventS);
-
-            KeyboardEvent keyboardEventC = new KeyboardEvent();
-            keyboardEventC.setKey(KeyboardEvent.KEY_L);
-            keyboardEventC.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventC);
-
-            KeyboardEvent keyboardEventRight = new KeyboardEvent();
-            keyboardEventRight.setKey(KeyboardEvent.KEY_RIGHT);
-            keyboardEventRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventRight);
-
-            KeyboardEvent keyboardEventLeft = new KeyboardEvent();
-            keyboardEventLeft.setKey(KeyboardEvent.KEY_LEFT);
-            keyboardEventLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventLeft);
-
-            KeyboardEvent keyboardEventUp = new KeyboardEvent();
-            keyboardEventUp.setKey(KeyboardEvent.KEY_UP);
-            keyboardEventUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventUp);
-
-            KeyboardEvent keyboardEventDown = new KeyboardEvent();
-            keyboardEventDown.setKey(KeyboardEvent.KEY_DOWN);
-            keyboardEventDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(keyboardEventDown);
-
-
-
-        }
-
-
-
-        @Override
-        public void keyPressed(KeyboardEvent keyboardEvent) {
-            switch (keyboardEvent.getKey()) {
-                case KeyboardEvent.KEY_LEFT:
-                    player.translate(-20,0);
-                    break;
-                case KeyboardEvent.KEY_RIGHT:
-                    player.translate(20,0);
-                    break;
-                case KeyboardEvent.KEY_UP:
-                    player.translate(0,-20);
-                    break;
-                case KeyboardEvent.KEY_DOWN:
-                    player.translate(0,20);
-                    break;
-                case KeyboardEvent.KEY_SPACE:
-                    paint();
-
+            case KeyboardEvent.KEY_UP:
+                if (currentRow > 0) {
+                    currentRow--;
+                    moveCursor();
+                }
                 break;
 
+            case KeyboardEvent.KEY_DOWN:
+                if (currentRow < Grid.ROWS - 1) {
+                    currentRow++;
+                    moveCursor();
+                }
+                break;
 
-            }
+            case KeyboardEvent.KEY_LEFT:
+                if (currentCol > 0) {
+                    currentCol--;
+                    moveCursor();
+                }
+                break;
+
+            case KeyboardEvent.KEY_RIGHT:
+                if (currentCol < Grid.COLS - 1) {
+                    currentCol++;
+                    moveCursor();
+                }
+                break;
+
+            case KeyboardEvent.KEY_SPACE:
+                paintCell(); // Paints with current color
+                break;
+
+            case KeyboardEvent.KEY_P:
+                changeColor(); // Rotates to next color in palette
+                break;
         }
-
-        public void paint(){
-            if(player.getColor() == Color.BLUE){
-                player.setColor(Color.DARK_GRAY);
-            } else {
-                player.setColor(Color.BLUE);
-            }
-            player.fill();
-        }
-
-
-
-        @Override
-        public void keyReleased(KeyboardEvent keyboardEvent) {
-
-        }
-
-
-
     }
+
+    @Override
+    public void keyReleased(KeyboardEvent keyboardEvent) {
+        // Not used
+    }
+
+    /**
+     * Moves the cursor rectangle to the new row and column
+     */
+    private void moveCursor() {
+        cursor.delete();
+        cursor = new Rectangle(grid.colToX(currentCol), grid.rowToY(currentRow), Grid.CELL_SIZE, Grid.CELL_SIZE);
+        cursor.setColor(Color.RED);
+        cursor.draw();
+    }
+
+    /**
+     * Paints the current cell with the current selected color
+     */
+    private void paintCell() {
+        Rectangle painted = new Rectangle(grid.colToX(currentCol), grid.rowToY(currentRow), Grid.CELL_SIZE, Grid.CELL_SIZE);
+        painted.setColor(palette[currentColorIndex]);
+        painted.fill();
+    }
+
+    /**
+     * Changes to the next color in the palette
+     */
+    private void changeColor() {
+        currentColorIndex = (currentColorIndex + 1) % palette.length;
+        System.out.println("Current color: " + palette[currentColorIndex]); // Optional: feedback
+    }
+}
