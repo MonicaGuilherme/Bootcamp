@@ -7,6 +7,7 @@ Grid Painter is a small "Paint"-like program developed in Java using the SimpleG
 - Paint individual cells with the selected color.
 - Change selected color from a visible palette.
 - Undo/Redo painting actions.
+- Erase the color of a especific cell.
 - Clear the entire grid.
 - Save your drawing to file.
 - Load your last saved drawing from file.
@@ -19,13 +20,14 @@ Grid Painter is a small "Paint"-like program developed in Java using the SimpleG
 | Arrow Keys | Move the cursor            |
 | `SPACE`    | Paint the current cell     |
 | `P`        | Change color               |
+| `E`        | Erase current cell         |
 | `C`        | Clear entire canvas        |
 | `S`        | Save drawing               |
 | `L`        | Load saved drawing         |
 | `Z`        | Undo last action           |
 | `Y`        | Redo undone action         |
 
-## 📦 Final Status
+## 📦 Status
 
 > This project is **complete** and no longer in active development.  
 It successfully served its purpose as a learning exercise for Java fundamentals, graphics, keyboard events, and file I/O.  
