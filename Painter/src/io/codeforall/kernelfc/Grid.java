@@ -66,6 +66,20 @@ public class Grid {
     }
 
     /**
+     * Erases a painted cell, restoring it to empty (outline only)
+     */
+    public void eraseCell(int row, int col) {
+        if (paintedCells[row][col] != null) {
+            paintedCells[row][col].delete();
+            paintedCells[row][col] = null;
+        }
+
+        Rectangle outline = new Rectangle(colToX(col), rowToY(row), CELL_SIZE, CELL_SIZE);
+        outline.setColor(Color.BLACK);
+        outline.draw(); // Redraw the outline
+    }
+
+    /**
      * Returns a list of all painted cells (non-null entries) as PaintedCell objects.
      * Each includes row, column, and color information.
      * @return list of painted cell data

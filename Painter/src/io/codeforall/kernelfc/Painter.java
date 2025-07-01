@@ -61,7 +61,8 @@ public class Painter implements KeyboardHandler {
                 KeyboardEvent.KEY_S,
                 KeyboardEvent.KEY_L,
                 KeyboardEvent.KEY_Z,
-                KeyboardEvent.KEY_Y
+                KeyboardEvent.KEY_Y,
+                KeyboardEvent.KEY_E
         };
 
         for (int key : keys) {
@@ -126,6 +127,9 @@ public class Painter implements KeyboardHandler {
             case KeyboardEvent.KEY_Y:
                 redo();
                 break;
+            case KeyboardEvent.KEY_E:
+                eraseCell();
+                break;
         }
     }
 
@@ -179,6 +183,14 @@ public class Painter implements KeyboardHandler {
         if (color == Color.MAGENTA) return "MAGENTA";
         if (color == Color.YELLOW) return "YELLOW";
         return "UNKNOWN";
+    }
+
+    /**
+     * Erases the currently selected cell (removes any fill).
+     */
+    private void eraseCell() {
+        saveStateForUndo(); // for undo functionality
+        grid.eraseCell(currentRow, currentCol);
     }
 
     /**
