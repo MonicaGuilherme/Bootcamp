@@ -8,13 +8,12 @@ public class Painter implements KeyboardHandler {
 
     private final Keyboard keyboard;
     private final Grid grid;
-
     private int currentRow;
     private int currentCol;
-
     private Rectangle cursor;
 
     // Color palette and index
+    private final ColorPalette colorPalette = new ColorPalette();
     private final Color[] palette = {Color.BLUE, Color.DARK_GRAY, Color.GREEN, Color.MAGENTA, Color.YELLOW};
     private int currentColorIndex = 0;
 
@@ -32,7 +31,7 @@ public class Painter implements KeyboardHandler {
         cursor = new Rectangle(grid.colToX(currentCol), grid.rowToY(currentRow), Grid.CELL_SIZE, Grid.CELL_SIZE);
         cursor.setColor(Color.RED);
         cursor.draw();
-
+        colorPalette.drawPalette(palette, currentColorIndex);
         createKeyboardEvents();
     }
 
@@ -131,6 +130,6 @@ public class Painter implements KeyboardHandler {
      */
     private void changeColor() {
         currentColorIndex = (currentColorIndex + 1) % palette.length;
-        System.out.println("Current color: " + palette[currentColorIndex]); // Optional: feedback
+        colorPalette.drawPalette(palette, currentColorIndex); // Redraw palette
     }
 }
