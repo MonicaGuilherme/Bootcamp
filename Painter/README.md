@@ -1,24 +1,42 @@
 # Description
-Grid Painter is a small "Paint"-like program developed in Java using the SimpleGraphics library. It allows you to move across a grid, painting and erasing the color of squares as you wish.
+Grid Painter is a small "Paint"-like program developed in Java using the SimpleGraphics library. It allows you to move across a grid, painting and changing the color of squares as you wish.
 
-# Current Features
-Displays a grid with a movable cursor.
+## ✅ Features
+- Visual grid canvas.
+- Keyboard-based navigation.
+- Paint individual cells with the selected color.
+- Change selected color from a visible palette.
+- Undo/Redo painting actions.
+- Clear the entire grid.
+- Save your drawing to file.
+- Load your last saved drawing from file.
+- All interactions use the keyboard only — no mouse required.
 
-Cursor is controlled with the arrow keys.
+## 🎮 Controls
 
-Pressing space changes the cursor color.
+| Key        | Action                     |
+|------------|----------------------------|
+| Arrow Keys | Move the cursor            |
+| `SPACE`    | Paint the current cell     |
+| `P`        | Change color               |
+| `C`        | Clear entire canvas        |
+| `S`        | Save drawing               |
+| `L`        | Load saved drawing         |
+| `Z`        | Undo last action           |
+| `Y`        | Redo undone action         |
 
-# Planned Features
-Painting individual grid squares.
+## 📦 Final Status
 
-Erasing painted squares.
+> This project is **complete** and no longer in active development.  
+It successfully served its purpose as a learning exercise for Java fundamentals, graphics, keyboard events, and file I/O.  
+You're welcome to fork, explore, or expand it further.
 
-Saving drawings.
+## 🧠 Built With
 
-Restoring the last saved drawing after clearing the grid.
+- Java (Vanilla)
+- [SimpleGraphics](https://github.com/Academia-de-Codigo/SimpleGraphics) – graphical abstraction over AWT/Swing
 
-# Current Status
-This program is still in its early stages. Core functionality is in place, but many features are yet to be implemented.
+## 📄 License
 
-# License
-This project is currently unlicensed. Feel free to explore and experiment. Contributions and feedback are welcome!
+This project is currently unlicensed.  
+Feel free to explore and experiment. Attribution is appreciated but not required. But feedback is always welcome! 
