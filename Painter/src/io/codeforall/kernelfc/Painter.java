@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Handles user interaction, grid painting, color selection,
+ * and drawing state control (undo/redo/save/load).
+ */
 public class Painter implements KeyboardHandler {
 
     private final Keyboard keyboard;
@@ -18,13 +22,13 @@ public class Painter implements KeyboardHandler {
     private final Stack<List<PaintedCell>> undoStack = new Stack<>();
     private final Stack<List<PaintedCell>> redoStack = new Stack<>();
 
-    // Color palette and index
+    // Color palette and current selection index
     private final ColorPalette colorPalette = new ColorPalette();
     private final Color[] palette = {Color.BLUE, Color.RED, Color.GREEN, Color.MAGENTA, Color.YELLOW};
     private int currentColorIndex = 0;
 
     /**
-     * Constructor: initializes the painter, grid, and sets up the keyboard and UI
+     * Constructor: initializes painter, grid, and sets up UI and keyboard events
      */
     public Painter() {
         this.keyboard = new Keyboard(this);
@@ -33,6 +37,7 @@ public class Painter implements KeyboardHandler {
         currentRow = 0;
         currentCol = 0;
 
+        // Create initial cursor
         cursor = new Rectangle(grid.colToX(currentCol), grid.rowToY(currentRow), Grid.CELL_SIZE, Grid.CELL_SIZE);
         cursor.setColor(Color.BLACK);
         cursor.fill();
@@ -42,7 +47,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Registers keyboard keys and binds them to the handler
+     * Registers keyboard events for movement, painting, color, and file operations
      */
     public void createKeyboardEvents() {
         int[] keys = {
@@ -50,13 +55,13 @@ public class Painter implements KeyboardHandler {
                 KeyboardEvent.KEY_DOWN,
                 KeyboardEvent.KEY_LEFT,
                 KeyboardEvent.KEY_RIGHT,
-                KeyboardEvent.KEY_SPACE, // Paint cell
-                KeyboardEvent.KEY_P,     // Change color
-                KeyboardEvent.KEY_C,     // Clear grid
-                KeyboardEvent.KEY_S,     // Save drawing
-                KeyboardEvent.KEY_L,     // Load drawing
-                KeyboardEvent.KEY_Z,     // Undo
-                KeyboardEvent.KEY_Y      // Redo
+                KeyboardEvent.KEY_SPACE,
+                KeyboardEvent.KEY_P,
+                KeyboardEvent.KEY_C,
+                KeyboardEvent.KEY_S,
+                KeyboardEvent.KEY_L,
+                KeyboardEvent.KEY_Z,
+                KeyboardEvent.KEY_Y
         };
 
         for (int key : keys) {
@@ -68,7 +73,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Main keyboard logic for moving, painting, clearing, and other actions
+     * Handles all key press events
      */
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
@@ -79,55 +84,45 @@ public class Painter implements KeyboardHandler {
                     moveCursor();
                 }
                 break;
-
             case KeyboardEvent.KEY_DOWN:
                 if (currentRow < Grid.ROWS - 1) {
                     currentRow++;
                     moveCursor();
                 }
                 break;
-
             case KeyboardEvent.KEY_LEFT:
                 if (currentCol > 0) {
                     currentCol--;
                     moveCursor();
                 }
                 break;
-
             case KeyboardEvent.KEY_RIGHT:
                 if (currentCol < Grid.COLS - 1) {
                     currentCol++;
                     moveCursor();
                 }
                 break;
-
             case KeyboardEvent.KEY_SPACE:
                 paintCell();
                 break;
-
             case KeyboardEvent.KEY_P:
                 changeColor();
                 break;
-
             case KeyboardEvent.KEY_C:
                 saveStateForUndo();
                 grid.clear();
                 colorPalette.drawPalette(palette, currentColorIndex);
                 moveCursor();
                 break;
-
             case KeyboardEvent.KEY_S:
                 saveDrawing();
                 break;
-
             case KeyboardEvent.KEY_L:
                 loadDrawing();
                 break;
-
             case KeyboardEvent.KEY_Z:
                 undo();
                 break;
-
             case KeyboardEvent.KEY_Y:
                 redo();
                 break;
@@ -140,7 +135,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Moves the visual cursor to the current position
+     * Updates the cursor's position on the grid
      */
     private void moveCursor() {
         cursor.delete();
@@ -150,7 +145,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Saves current state of the grid before any change
+     * Saves current painted state for undo tracking
      */
     private void saveStateForUndo() {
         List<PaintedCell> snapshot = new ArrayList<>(grid.getPaintedCells());
@@ -159,7 +154,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Paints current cell with selected color
+     * Paints the selected cell using the current color
      */
     private void paintCell() {
         saveStateForUndo();
@@ -167,7 +162,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Switches to the next color in the palette
+     * Rotates through the color palette
      */
     private void changeColor() {
         currentColorIndex = (currentColorIndex + 1) % palette.length;
@@ -175,7 +170,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Converts Color object to string representation
+     * Converts a Color to a String for file saving
      */
     private String colorToString(Color color) {
         if (color == Color.BLUE) return "BLUE";
@@ -187,7 +182,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Saves the current painted grid to a text file
+     * Saves the painted grid to a text file
      */
     private void saveDrawing() {
         List<PaintedCell> cells = grid.getPaintedCells();
@@ -204,7 +199,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Converts string to Color object
+     * Converts a saved color name back to Color object
      */
     private Color stringToColor(String colorName) {
         return switch (colorName) {
@@ -218,7 +213,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Loads the drawing from the file and restores the painted grid
+     * Loads a drawing from file and restores painted cells
      */
     private void loadDrawing() {
         try (BufferedReader reader = new BufferedReader(new FileReader("drawing.txt"))) {
@@ -250,7 +245,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Undo the last action by restoring the previous state from the stack
+     * Restores the previous grid state from undo stack
      */
     private void undo() {
         if (undoStack.isEmpty()) {
@@ -268,7 +263,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Redo the previously undone action
+     * Reapplies a state that was undone
      */
     private void redo() {
         if (redoStack.isEmpty()) {
@@ -286,7 +281,7 @@ public class Painter implements KeyboardHandler {
     }
 
     /**
-     * Applies a saved state to the grid and updates UI
+     * Applies a given list of painted cells to the grid
      */
     private void applyState(List<PaintedCell> state) {
         grid.clear();
