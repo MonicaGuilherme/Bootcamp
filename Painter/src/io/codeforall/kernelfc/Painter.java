@@ -3,6 +3,8 @@ package io.codeforall.kernelfc;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.*;
+import java.io.*;
+import java.util.List;
 
 public class Painter implements KeyboardHandler {
 
@@ -14,7 +16,7 @@ public class Painter implements KeyboardHandler {
 
     // Color palette and index
     private final ColorPalette colorPalette = new ColorPalette();
-    private final Color[] palette = {Color.BLUE, Color.DARK_GRAY, Color.GREEN, Color.MAGENTA, Color.YELLOW};
+    private final Color[] palette = {Color.BLUE, Color.RED, Color.GREEN, Color.MAGENTA, Color.YELLOW};
     private int currentColorIndex = 0;
 
     /**
@@ -29,8 +31,8 @@ public class Painter implements KeyboardHandler {
 
         // Create the visual cursor (player)
         cursor = new Rectangle(grid.colToX(currentCol), grid.rowToY(currentRow), Grid.CELL_SIZE, Grid.CELL_SIZE);
-        cursor.setColor(Color.RED);
-        cursor.draw();
+        cursor.setColor(Color.BLACK);
+        cursor.fill();
         colorPalette.drawPalette(palette, currentColorIndex);
         createKeyboardEvents();
     }
@@ -44,8 +46,11 @@ public class Painter implements KeyboardHandler {
                 KeyboardEvent.KEY_DOWN,
                 KeyboardEvent.KEY_LEFT,
                 KeyboardEvent.KEY_RIGHT,
-                KeyboardEvent.KEY_SPACE,
-                KeyboardEvent.KEY_P // New: change color
+                KeyboardEvent.KEY_SPACE, // paint
+                KeyboardEvent.KEY_P, // change color
+                KeyboardEvent.KEY_C, // clear grid
+                KeyboardEvent.KEY_S // save drawing
+
         };
 
         for (int key : keys) {
@@ -98,6 +103,18 @@ public class Painter implements KeyboardHandler {
             case KeyboardEvent.KEY_P:
                 changeColor(); // Rotates to next color in palette
                 break;
+
+            case KeyboardEvent.KEY_C:
+                grid.clear();
+                colorPalette.drawPalette(palette, currentColorIndex); // Refresh palette
+                moveCursor(); // Redraw cursor on top
+                break;
+
+            case KeyboardEvent.KEY_S:
+                saveDrawing();
+                break;
+
+
         }
     }
 
@@ -120,9 +137,7 @@ public class Painter implements KeyboardHandler {
      * Paints the current cell with the current selected color
      */
     private void paintCell() {
-        Rectangle painted = new Rectangle(grid.colToX(currentCol), grid.rowToY(currentRow), Grid.CELL_SIZE, Grid.CELL_SIZE);
-        painted.setColor(palette[currentColorIndex]);
-        painted.fill();
+        grid.paintCell(currentRow, currentCol, palette[currentColorIndex]);
     }
 
     /**
@@ -132,4 +147,30 @@ public class Painter implements KeyboardHandler {
         currentColorIndex = (currentColorIndex + 1) % palette.length;
         colorPalette.drawPalette(palette, currentColorIndex); // Redraw palette
     }
+
+    private String colorToString(Color color) {
+        if (color == Color.BLUE) return "BLUE";
+        if (color == Color.DARK_GRAY) return "DARK_GRAY";
+        if (color == Color.GREEN) return "GREEN";
+        if (color == Color.MAGENTA) return "MAGENTA";
+        if (color == Color.YELLOW) return "YELLOW";
+        return "UNKNOWN";
+    }
+
+
+    private void saveDrawing() {
+        List<PaintedCell> cells = grid.getPaintedCells();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("drawing.txt"))) {
+            for (PaintedCell cell : cells) {
+                writer.write(cell.row + "," + cell.col + "," + colorToString(cell.color));
+                writer.newLine();
+            }
+            System.out.println("Drawing saved.");
+        } catch (IOException e) {
+            System.out.println("Error saving drawing: " + e.getMessage());
+        }
+    }
+
+
 }
